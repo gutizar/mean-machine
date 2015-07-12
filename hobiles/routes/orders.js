@@ -17,6 +17,18 @@ router.param('order', function (req, res, next, id) {
   });
 });
 
+router.param('comment', function (req, res, next, id) {
+  var query = Comment.findById(id);
+  query.exec(function (err, comment) {
+    if (err) { return next(err); }
+    if (!comment) {
+      return next(new Error('Could not find comment with ID ' + id));
+    }
+    req.comment = comment;
+    return next();
+  });
+});
+
 router.get('/', function (req, res, next) {
   Order.find(function (err, orders) {
     if (err) { return next(err) };
@@ -39,7 +51,23 @@ router.get('/:order/comments', function (req, res) {
 });
 
 router.get('/:order/comments/:comment', function (req, res) {
-  res.json(req.order);
+  res.json(req.comment._id);
+});
+
+router.delete('/:order/comments/:comment', function (req, res, next) {
+  // Remove the comment from the order
+  req.order.comments.pull({
+    _id: req.comment._id
+  });
+
+  req.order.save(function (err, order ) {
+    if (err) { return next(err); }
+    
+    req.comment.remove(function (err) {
+      if (err) { return next(err); }
+      res.json(order);
+    });
+  });
 });
 
 router.post('/:order/comments', function (req, res, next) {

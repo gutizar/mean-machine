@@ -26,7 +26,7 @@ router.get('/', function (req, res, next) {
 router.post('/', function (req, res, next) {
   var comment = new Comment(req.body);
   comment.save(function (err, comment) {
-    if (err) { return next(err) };
+    if (err) { return next(err); }
     res.json(comment);
   });
 });
@@ -42,14 +42,29 @@ router.put('/:comment/toggle', function (req, res, next) {
   req.comment.toggle(function (err, comment) {
     if (err) { return next(err); }
     res.json(comment);
-  })
+  });
 });
 
 router.put('/:comment/upvote', function (req, res, next) {
   req.comment.upvote(function (err, comment) {
     if (err) { return next(err); }
     res.json(comment);
-  })
+  });
+});
+
+router.delete('/:comment', function (req, res, next) {
+  req.comment.order.comments.pull({
+    _id: req.comment._id
+  });
+
+  req.comment.order.save(function (err, order) {
+    if (err) { return next(err); }
+
+    req.comment.remove(function (err) {
+      if (err) { return next(err); }
+      res.status(204).send();
+    });
+  });
 });
 
 module.exports = router;
