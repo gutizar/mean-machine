@@ -1,0 +1,35 @@
+<h2>{{ order.number }}</h2>
+<div>
+  <h3>Order details:</h3>
+  <hr />
+  <h4 class="important" ng-show="order.important">
+    The order has been marked as important
+    <a href="#" ng-click="toggle()">x</a>
+  </h4>
+  <button ng-click="toggle()" ng-hide="order.important">
+    Set as important
+  </button>
+  <ul>
+    <li>Web ID: {{ order.numberWeb }}</li>
+    <li>Description: {{ order.description }}</li>
+    <li>Service: {{ order.service }}</li>
+    <li>Customer: {{ order.customerName }}</li>
+    <li>Sum: {{ order.sum }}</li>
+  </ul>
+  <table>
+    <tr ng-repeat="comment in order.comments">
+      <td>{{ comment.body }}</td>
+      <td>{{ comment.createdBy }}</td>
+    </tr>
+  </table>
+  <form ng-submit="addComment()">
+    <h4>Add a comment</h4>
+    <div class="form-group">
+      <input type="text" placeholder="Comment" ng-model="comment.body"></input>
+    </div>
+    <div class="form-group">
+      <input type="text" placeholder="Author" ng-model="comment.createdBy"></input>
+    </div>
+    <button type="submit">Create</button>
+  </form>
+</div>

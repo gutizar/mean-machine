@@ -16,6 +16,16 @@ config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRo
 			}]
 		}
 	});
+	$stateProvider.state('order', {
+			url: '/order/{id}',
+			templateUrl: 'partials/order',
+			controller: 'OrderCtrl',
+			resolve: {
+				order: ['$stateParams', 'orders', function ($stateParams, orders) {
+					return orders.get($stateParams.id);
+				}]
+			}
+	});
 
 	$urlRouterProvider.otherwise('home');
 }]);
