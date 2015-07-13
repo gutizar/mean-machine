@@ -24,12 +24,12 @@
   </table>
   <form ng-submit="addComment()">
     <h4>Add a comment</h4>
-    <div class="form-group">
-      <input type="text" placeholder="Comment" ng-model="comment.body"></input>
-    </div>
-    <div class="form-group">
-      <input type="text" placeholder="Author" ng-model="comment.createdBy"></input>
-    </div>
+    <md-input-container>
+      <input type="text" placeholder="Comment" ng-model="body"></input>
+    </md-input-container>
+    <md-input-container>
+      <input type="text" placeholder="Author" ng-model="createdBy"></input>
+    </md-input-container>
     <button type="submit">Create</button>
   </form>
 </div>
