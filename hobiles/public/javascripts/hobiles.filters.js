@@ -3,4 +3,4 @@
  *
  * Description
  */
-var filters = angular.module('hobiles.filters', []);
+angular.module('hobiles.filters', []);

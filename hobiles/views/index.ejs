@@ -3,9 +3,17 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.min.js" charset="utf-8"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
+    <script src="/javascripts/hobiles.controllers.js" charset="utf-8"></script>
+    <script src="/javascripts/hobiles.services.js" charset="utf-8"></script>
+    <script src="/javascripts/hobiles.filters.js" charset="utf-8"></script>
+    <script src="/javascripts/hobiles.directives.js" charset="utf-8"></script>
+    <script src="/javascripts/hobiles.js" charset="utf-8"></script>
   </head>
-  <body>
+  <body ng-app="hobiles">
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
+    <div ui-view>Some content will load here!</div>
   </body>
 </html>

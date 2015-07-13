@@ -5,14 +5,21 @@
  */
 var services = angular.module('hobiles.services', []);
 
-services.value('resources', {
-	orders: 'orders',
-	comments: 'comments'
+services.factory('test', function () {
+	return {
+		greet: function () {
+			console.log('Hello, world!');
+		}
+	};
 });
 
-services.factory('orders', ['$scope', '$http', function ($scope, $http) {
+services.factory('orders', ['$http', function ($http) {
 	var obj = {
 		orders: []
+	};
+
+	obj.greet = function () {
+		console.log('Hello from the orders service');
 	};
 
 	obj.getAll = function () {
@@ -47,7 +54,7 @@ services.factory('orders', ['$scope', '$http', function ($scope, $http) {
 			.success(function (data) {
 				order.comments.push(data);
 			});
-	}
+	};
 
 	return obj;
 }]);

@@ -1,10 +1,12 @@
+'use strict';
+
 /**
  * hobiles.controllers Module
  *
  * Description
  */
-var controllers = angular.module('hobiles.controllers', []).
-
-controllers.controller('OrderCtrl', ['$scope', function ($scope) {
-	
-}]);
+angular.module('hobiles.controllers', []).
+	controller('HomeCtrl', ['$scope', 'orders', function ($scope, orders) {
+		$scope.message = 'Hello, World!';
+		$scope.orders = orders.orders;
+	}]);

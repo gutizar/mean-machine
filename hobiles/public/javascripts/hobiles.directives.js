@@ -1,5 +1,6 @@
-var directives = angular.module('hobiles.directives', []);
-
-directives.directive('myDirective', function () {
-
-});
+/**
+ * hobiles.directives Module
+ *
+ * Description
+ */
+angular.module('hobiles.directives', []);
