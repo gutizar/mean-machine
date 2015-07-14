@@ -1,0 +1,22 @@
+{
+  "name": "hobiles",
+  "version": "0.0.1",
+  "homepage": "https://github.com/gutizar/mean-machine",
+  "authors": [
+    "Daniel Gutiérrez <gutizar@gmail.com>"
+  ],
+  "description": "Order management",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "/public/vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-ui-router": "~0.2.15",
+    "angular": "~1.4.2"
+  }
+}
