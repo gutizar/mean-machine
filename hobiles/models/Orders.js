@@ -22,8 +22,18 @@ var OrderSchema = new mongoose.Schema({
     name: String,
     lifecycle: String
   },
-  important: Boolean,
+  important: { type: Boolean, default: false },
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }]
+});
+
+OrderSchema.pre('save', function (next) {
+  this.created = new Date();
+  this.updated = new Date();
+  next();
+});
+
+OrderSchema.pre('update', function () {
+  this.update({}, { $set: { updated: new Date() } });
 });
 
 OrderSchema.methods.toggle = function (cb) {

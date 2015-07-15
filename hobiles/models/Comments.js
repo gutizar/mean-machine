@@ -5,8 +5,13 @@ var CommentSchema = new mongoose.Schema({
   created: { type: Date, default: Date.Now },
   createdBy: String,
   upvotes: { type: Number, default: 0 },
-  important: Boolean,
+  important: { type: Boolean, default: false },
   order: { type: mongoose.Schema.Types.ObjectId, ref: 'Order' }
+});
+
+CommentSchema.pre('save', function (next) {
+  this.created = new Date();
+  next();
 });
 
 CommentSchema.methods.upvote = function (cb) {
