@@ -41,7 +41,17 @@ app.use(function(req, res, next) {
 });
 
 // error handlers
-
+app.use(function(err, req, res, next) {
+  if (req.is('application/json')) {
+    res.status(err.status || 500).json({
+      message: err.message,
+      code: err.status || 500,
+      errors: err.errors || null
+    });
+  } else {
+    next(err);
+  }
+});
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {

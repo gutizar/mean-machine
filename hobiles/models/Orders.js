@@ -1,7 +1,16 @@
 var mongoose = require('mongoose');
 
 var OrderSchema = new mongoose.Schema({
-  number: String,
+  number: {
+    type: String,
+    trim: true,
+    unique: true,
+    uppercase: true,
+    match: [
+      /\d{4}-\d{6}/,
+      "Order number must have the format yyyy-xxxxxx ({VALUE})"
+    ]
+  },
   numberWeb: String,
   customerName: String,
   description: String,
@@ -10,6 +19,7 @@ var OrderSchema = new mongoose.Schema({
   dispatch: {
     name: String, label: String
   },
+  dueDate: { type: Date, default: Date.Now },
   created: { type: Date, default: Date.Now },
   updated: { type: Date, default: Date.Now },
   createdBy: String,

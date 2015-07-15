@@ -62,7 +62,7 @@ router.delete('/:order/comments/:comment', function (req, res, next) {
 
   req.order.save(function (err, order ) {
     if (err) { return next(err); }
-    
+
     req.comment.remove(function (err) {
       if (err) { return next(err); }
       res.json(order);
