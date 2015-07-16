@@ -5,12 +5,15 @@
  *
  * Description
  */
-angular.module('hobiles.controllers', []).
-	controller('HomeCtrl', ['$scope', 'orders', function ($scope, orders) {
-		$scope.message = 'Hobiles Order Management';
-		$scope.orders = orders.orders;
-	}]).
-	controller('OrderCtrl', ['$scope', 'orders', 'order', function ($scope, orders, order) {
+var controllers = angular.module('hobiles.controllers', []);
+
+controllers.controller('HomeCtrl', ['$scope', 'orders', function ($scope, orders) {
+	$scope.message = 'Hobiles Order Management';
+	$scope.orders = orders.orders;
+}]);
+
+controllers.controller('OrderCtrl', ['$scope', 'orders', 'order', 'comments', 
+	function ($scope, orders, order, comments) {
 		$scope.order = order;
 
 		$scope.addComment = function () {
@@ -28,4 +31,8 @@ angular.module('hobiles.controllers', []).
 		$scope.toggle = function () {
 			orders.toggle($scope.order);
 		};
-	}]);
+
+		$scope.upvote = function (comment) {
+			comments.upvote(comment);
+		};
+}]);

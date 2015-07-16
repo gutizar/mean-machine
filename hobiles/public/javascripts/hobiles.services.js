@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * hobiles.services Module
  *
@@ -59,7 +61,7 @@ services.factory('orders', ['$http', function ($http) {
 	return obj;
 }]);
 
-services.factory('comments', ['$scope', '$http', function ($scope, $http) {
+services.factory('comments', ['$http', function ($http) {
 	var obj = {
 		comments: []
 	};
@@ -77,7 +79,7 @@ services.factory('comments', ['$scope', '$http', function ($scope, $http) {
 	};
 
 	obj.upvote = function (comment) {
-		return $http.put('/comments/' + id + '/upvote', null)
+		return $http.put('/comments/' + comment._id + '/upvote', null)
 			.success(function (data) {
 				comment.upvotes++;
 			});
