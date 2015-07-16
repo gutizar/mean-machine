@@ -7,8 +7,7 @@
  */
 angular.module('hobiles.controllers', []).
 	controller('HomeCtrl', ['$scope', 'orders', function ($scope, orders) {
-		$scope.message = 'Hello, World!';
-		
+		$scope.message = 'Hobiles Order Management';
 		$scope.orders = orders.orders;
 	}]).
 	controller('OrderCtrl', ['$scope', 'orders', 'order', function ($scope, orders, order) {

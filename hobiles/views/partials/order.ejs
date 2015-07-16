@@ -20,6 +20,8 @@
     <tr ng-repeat="comment in order.comments">
       <td>{{ comment.body }}</td>
       <td>{{ comment.createdBy }}</td>
+      <td>{{ comment.created }}</td>
+      <td>{{ comment.upvotes }}</td>
     </tr>
   </table>
   <form ng-submit="addComment()">
