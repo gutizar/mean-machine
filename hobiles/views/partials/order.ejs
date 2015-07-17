@@ -17,13 +17,23 @@
     <li>Sum: {{ order.sum }}</li>
   </ul>
   <table>
-    <tr ng-repeat="comment in order.comments | orderBy: '-upvotes'">
-      <td>{{ comment.body }}</td>
-      <td>{{ comment.createdBy }}</td>
-      <td>{{ comment.created }}</td>
-      <td>{{ comment.upvotes }}</td>
-      <td><a href="#" ng-click="upvote(comment)">^</a></td>
-    </tr>
+    <thead>
+      <tr>
+        <th>Comment</th>
+        <th>User</th>
+        <th>Created</th>
+        <th>Upvotes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="comment in order.comments | orderBy: '-upvotes'">
+        <td>{{ comment.body }}</td>
+        <td>{{ comment.createdBy }}</td>
+        <td>{{ comment.created | date : 'dd.MM.yyyy' }}</td>
+        <td>{{ comment.upvotes }}</td>
+        <td><a href="#" ng-click="upvote(comment)">^</a></td>
+      </tr>
+    </tbody>
   </table>
   <form ng-submit="addComment()">
     <h4>Add a comment</h4>

@@ -44,6 +44,14 @@ services.factory('orders', ['$http', function ($http) {
 		});
 	};
 
+	obj.update = function (order) {
+		return $http.post('/orders/' + order._id, order).success(function (data) {
+			return data;
+		}).error(function (err) {
+			console.log(err);
+		});
+	};
+
 	obj.toggle = function (order) {
 		return $http.put('/orders/' + order._id + '/toggle', null)
 			.success(function (data) {

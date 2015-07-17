@@ -12,9 +12,13 @@ controllers.controller('HomeCtrl', ['$scope', 'orders', function ($scope, orders
 	$scope.orders = orders.orders;
 }]);
 
-controllers.controller('OrderCtrl', ['$scope', 'orders', 'order', 'comments', 
+controllers.controller('OrderCtrl', ['$scope', 'orders', 'order', 'comments',
 	function ($scope, orders, order, comments) {
 		$scope.order = order;
+
+		$scope.updateOrder = function () {
+			orders.update(order);
+		};
 
 		$scope.addComment = function () {
 			if (!$scope.body || !$scope.createdBy) {
