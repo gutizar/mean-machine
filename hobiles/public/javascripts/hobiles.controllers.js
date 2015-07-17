@@ -36,6 +36,10 @@ controllers.controller('OrderCtrl', ['$scope', 'orders', 'order', 'comments',
 			orders.toggle($scope.order);
 		};
 
+		$scope.toggleComment = function (comment) {
+			comments.toggle(comment);
+		};
+
 		$scope.upvote = function (comment) {
 			comments.upvote(comment);
 		};

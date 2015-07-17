@@ -93,5 +93,12 @@ services.factory('comments', ['$http', function ($http) {
 			});
 	};
 
+	obj.toggle = function (comment) {
+		return $http.put('/comments/' + comment._id + '/toggle', null)
+			.success(function (data) {
+				comment.important = data.important;
+			});
+	};
+
 	return obj;
 }]);

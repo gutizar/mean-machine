@@ -31,7 +31,8 @@
         <td>{{ comment.createdBy }}</td>
         <td>{{ comment.created | date : 'dd.MM.yyyy' }}</td>
         <td>{{ comment.upvotes }}</td>
-        <td><a href="#" ng-click="upvote(comment)">^</a></td>
+        <td><a ng-click="upvote(comment)">^Up</a></td>
+        <td><a ng-click="toggleComment(comment)">*Imp</a></td>
       </tr>
     </tbody>
   </table>
