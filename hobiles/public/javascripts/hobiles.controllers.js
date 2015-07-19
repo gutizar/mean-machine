@@ -16,8 +16,8 @@ controllers.controller('OrderCtrl', ['$scope', 'orders', 'order', 'comments',
 	function ($scope, orders, order, comments) {
 		$scope.order = order;
 
-		$scope.updateOrder = function () {
-			orders.update(order);
+		$scope.updateOrder = function (input) {
+			orders.update(input);
 		};
 
 		$scope.addComment = function () {

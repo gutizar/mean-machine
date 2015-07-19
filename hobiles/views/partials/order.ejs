@@ -38,12 +38,19 @@
   </table>
   <form ng-submit="addComment()">
     <h4>Add a comment</h4>
-    <md-input-container>
-      <input type="text" placeholder="Comment" ng-model="body"></input>
-    </md-input-container>
-    <md-input-container>
-      <input type="text" placeholder="Author" ng-model="createdBy"></input>
-    </md-input-container>
+    <input type="text" placeholder="Comment" ng-model="body"></input>
+    <input type="text" placeholder="Author" ng-model="createdBy">
+    </input>
     <button type="submit">Create</button>
+  </form>
+  <form ng-submit="updateOrder(order)">
+    <h4>Edit the order</h4>
+    <input type="text" ng-model="order.number"></input>
+    <input type="text" ng-model="order.numberWeb"></input>
+    <input type="text" ng-model="order.sum"></input>
+    <input type="text" ng-model="order.description"></input>
+    <input type="text" ng-model="order.service"></input>
+    <input type="text" ng-model="order.customerName"></input>
+    <button type="submit">Update</button>
   </form>
 </div>
