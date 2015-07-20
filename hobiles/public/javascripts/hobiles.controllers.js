@@ -17,7 +17,16 @@ controllers.controller('OrderCtrl', ['$scope', 'orders', 'order', 'comments',
 		$scope.order = order;
 
 		$scope.updateOrder = function (input) {
-			orders.update(input);
+			$scope.errors = {};
+			
+			orders.update(input).success(function (data) {
+				$scope.updateStatus = data;
+			}).error(function (err) {
+				angular.forEach(err.errors, function (value, key) {
+					$scope.form[key].$setValidity('server', false);	
+					$scope.errors[key] = value.message;
+				});
+			});
 		};
 
 		$scope.addComment = function () {

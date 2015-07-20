@@ -94,10 +94,11 @@ router.post('/', function (req, res, next) {
 });
 
 router.post('/:order', function (req, res, next) {
-  Order.update({ _id: req.order._id }, req.body, function (err, raw) {
-    if (err) { return next(err); }
-    res.json(raw);
-  });
+  Order.update({ _id: req.order._id }, req.body, { runValidators: true }, 
+    function (err, raw) {
+      if (err) { return next(err); }
+      res.json(raw);
+    });
 });
 
 router.put('/:order/toggle', function (req, res, next) {

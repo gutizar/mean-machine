@@ -43,11 +43,19 @@
     </input>
     <button type="submit">Create</button>
   </form>
-  <form ng-submit="updateOrder(order)">
+  <form name="form" class="css-form" ng-submit="updateOrder(order)">
     <h4>Edit the order</h4>
-    <input type="text" ng-model="order.number"></input>
+    <div ng-show="updateStatus.ok">
+      <span>Order successfully modified #{{ updateStatus.nModified }}</span>
+    </div>
+    <div>
+      <input type="text" name="number" ng-model="order.number" server-error></input>
+      <div ng-show="form.number.$dirty && form.number.$invalid">
+        <span ng-show="form.number.$error.server">{{ errors.number }}</span>
+      </div>  
+    </div>
     <input type="text" ng-model="order.numberWeb"></input>
-    <input type="text" ng-model="order.sum"></input>
+    <input type="text" type="number" ng-model="order.sum"></input>
     <input type="text" ng-model="order.description"></input>
     <input type="text" ng-model="order.service"></input>
     <input type="text" ng-model="order.customerName"></input>
