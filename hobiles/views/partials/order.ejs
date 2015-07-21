@@ -14,7 +14,7 @@
     <li>Description: {{ order.description }}</li>
     <li>Service: {{ order.service }}</li>
     <li>Customer: {{ order.customerName }}</li>
-    <li>Sum: {{ order.sum }}</li>
+    <li>Sum: {{ order.sum | currency:'€':2 }}</li>
   </ul>
   <table>
     <thead>
@@ -46,16 +46,23 @@
   <form name="form" class="css-form" ng-submit="updateOrder(order)">
     <h4>Edit the order</h4>
     <div ng-show="updateStatus.ok">
-      <span>Order successfully modified #{{ updateStatus.nModified }}</span>
+      <span>
+        Order successfully modified #{{ updateStatus.nModified }}
+      </span>
+    </div>
+    <div ng-show="errors['form']">
+      <span>{{ errors['form'] }}</span>
     </div>
     <div>
       <input type="text" name="number" ng-model="order.number" server-error></input>
       <div ng-show="form.number.$dirty && form.number.$invalid">
-        <span ng-show="form.number.$error.server">{{ errors.number }}</span>
+        <span ng-show="form.number.$error.server">
+          {{ errors.number }}
+        </span>
       </div>  
     </div>
     <input type="text" ng-model="order.numberWeb"></input>
-    <input type="text" type="number" ng-model="order.sum"></input>
+    <input type="number" step="any" ng-model="order.sum"></input>
     <input type="text" ng-model="order.description"></input>
     <input type="text" ng-model="order.service"></input>
     <input type="text" ng-model="order.customerName"></input>

@@ -22,10 +22,14 @@ controllers.controller('OrderCtrl', ['$scope', 'orders', 'order', 'comments',
 			orders.update(input).success(function (data) {
 				$scope.updateStatus = data;
 			}).error(function (err) {
-				angular.forEach(err.errors, function (value, key) {
-					$scope.form[key].$setValidity('server', false);	
-					$scope.errors[key] = value.message;
-				});
+				if (err.errors) {
+					angular.forEach(err.errors, function (value, key) {
+						$scope.form[key].$setValidity('server', false);	
+						$scope.errors[key] = value.message;
+					});	
+				} else {
+					$scope.errors['form'] = err.message;					
+				}
 			});
 		};
 
