@@ -15,6 +15,24 @@ services.factory('test', function () {
 	};
 });
 
+// TODO: Keep the records in the DB.
+services.factory('dispatch', function () {
+	return [
+		{ name: 'hobiles', label: 'Hobiles' },
+		{ name: 'mail', label: 'Pošta Slovenije' },
+		{ name: 'client', label: 'Lastni prevzem' }
+	];
+});
+
+// TODO: Keep the records in the DB.
+services.factory('payment', function () {
+	return [
+		{ name: 'preinvoice', label: 'Predplačilo'},
+		{ name: 'transfer', label: 'Nakazilo'},
+		{ name: 'delivery', label: 'Ob prevzemu'}
+	]
+});
+
 services.factory('orders', ['$http', function ($http) {
 	var obj = {
 		orders: []

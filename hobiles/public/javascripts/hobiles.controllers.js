@@ -12,23 +12,25 @@ controllers.controller('HomeCtrl', ['$scope', 'orders', function ($scope, orders
 	$scope.orders = orders.orders;
 }]);
 
-controllers.controller('OrderCtrl', ['$scope', 'orders', 'order', 'comments',
-	function ($scope, orders, order, comments) {
+controllers.controller('OrderCtrl', ['$scope', 'orders', 'order', 'comments', 'dispatch', 'payment',
+	function ($scope, orders, order, comments, dispatch, payment) {
 		$scope.order = order;
+		$scope.dispatch = dispatch;
+		$scope.payment = payment;
 
 		$scope.updateOrder = function (input) {
 			$scope.errors = {};
-			
+
 			orders.update(input).success(function (data) {
 				$scope.updateStatus = data;
 			}).error(function (err) {
 				if (err.errors) {
 					angular.forEach(err.errors, function (value, key) {
-						$scope.form[key].$setValidity('server', false);	
+						$scope.form[key].$setValidity('server', false);
 						$scope.errors[key] = value.message;
-					});	
+					});
 				} else {
-					$scope.errors['form'] = err.message;					
+					$scope.errors['form'] = err.message;
 				}
 			});
 		};
