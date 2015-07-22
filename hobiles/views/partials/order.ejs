@@ -66,8 +66,8 @@
     <input type="text" ng-model="order.description"></input>
     <input type="text" ng-model="order.service"></input>
     <input type="text" ng-model="order.customerName"></input>
-    <select ng-options="item.name as item.label for item in dispatch" ng-model="order.dispatch.name"></select>
-    <select ng-options="item.name as item.label for item in payment" ng-model="order.payment.name"></select>
+    <select ng-options="item.name as item.label for item in dispatch" ng-model="order.dispatch"></select>
+    <select ng-options="item.name as item.label for item in payment" ng-model="order.payment"></select>
     <button type="submit">Update</button>
   </form>
 </div>

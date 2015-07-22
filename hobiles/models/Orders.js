@@ -7,7 +7,7 @@ var OrderSchema = new mongoose.Schema({
     unique: true,
     uppercase: true,
     match: [
-      /\d{4}-\d{6}/,
+      /\d{4}\/\d{6}/,
       "Order number must have the format yyyy-xxxxxx ({VALUE})"
     ]
   },
@@ -16,17 +16,13 @@ var OrderSchema = new mongoose.Schema({
   description: String,
   service: String,
   partListNumber: String,
-  dispatch: {
-    name: String, label: String
-  },
+  dispatch: String,
   dueDate: { type: Date, default: Date.Now },
   created: { type: Date, default: Date.Now },
   updated: { type: Date, default: Date.Now },
   createdBy: String,
   updatedBy: String,
-  payment: {
-    name: String, label: String
-  },
+  payment: String,
   sum: { type: Number, default: 0 },
   status: {
     name: String,
