@@ -39,6 +39,7 @@ OrderSchema.pre('save', function (next) {
 });
 
 OrderSchema.pre('update', function () {
+  console.log('On the pre-update function callback');
   this.update({}, { $set: { updated: new Date() } });
 });
 
