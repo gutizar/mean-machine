@@ -20,7 +20,9 @@ controllers.controller('OrderCtrl', ['$scope', 'orders', 'order', 'comments', 'd
 
 		$scope.updateOrder = function (input) {
 			$scope.errors = {};
-
+			// Pre-update hook does not work
+			// TODO: Check the issue @ the mongoosejs project page
+			input.updated = new Date();
 			orders.update(input).success(function (data) {
 				$scope.updateStatus = data;
 			}).error(function (err) {

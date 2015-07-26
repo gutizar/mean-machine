@@ -8,7 +8,7 @@ var OrderSchema = new mongoose.Schema({
     uppercase: true,
     match: [
       /\d{4}\/\d{6}/,
-      "Order number must have the format yyyy-xxxxxx ({VALUE})"
+      "Order number must have the format yyyy/xxxxxx, i.e. 2015/123456"
     ]
   },
   numberWeb: String,
@@ -39,7 +39,6 @@ OrderSchema.pre('save', function (next) {
 });
 
 OrderSchema.pre('update', function () {
-  console.log('On the pre-update function callback');
   this.update({}, { $set: { updated: new Date() } });
 });
 

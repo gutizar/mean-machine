@@ -63,12 +63,6 @@ services.factory('orders', ['$http', function ($http) {
 	};
 
 	obj.update = function (order) {
-		// return $http.post('/orders/' + order._id, order).success(function (data) {
-		// 	return data;
-		// }).error(function (err) {
-		// 	console.log(err);
-		// 	order.number.$error.server = err.errors.number.message;
-		// });
 		return $http.post('/orders/' + order._id, order);
 	};
 
