@@ -25,6 +25,7 @@ controllers.controller('OrderCtrl', ['$scope', 'orders', 'order', 'comments', 'd
 			input.updated = new Date();
 			orders.update(input).success(function (data) {
 				$scope.updateStatus = data;
+				$('#editOrderModal').modal('toggle');
 			}).error(function (err) {
 				if (err.errors) {
 					angular.forEach(err.errors, function (value, key) {
@@ -51,6 +52,14 @@ controllers.controller('OrderCtrl', ['$scope', 'orders', 'order', 'comments', 'd
 
 		$scope.toggle = function () {
 			orders.toggle($scope.order);
+		};
+
+		$scope.promote = function () {
+			orders.promote($scope.order);
+		};
+
+		$scope.demote = function () {
+			orders.demote($scope.order);
 		};
 
 		$scope.toggleComment = function (comment) {

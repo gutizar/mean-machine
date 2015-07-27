@@ -38,10 +38,6 @@ services.factory('orders', ['$http', function ($http) {
 		orders: []
 	};
 
-	obj.greet = function () {
-		console.log('Hello from the orders service');
-	};
-
 	obj.getAll = function () {
 		return $http.get('/orders').success(function (data) {
 			angular.copy(data, obj.orders);
@@ -78,6 +74,20 @@ services.factory('orders', ['$http', function ($http) {
 			.success(function (data) {
 				order.comments.push(data);
 			});
+	};
+
+	obj.promote = function (order) {
+		var url = '/lifecycles/' + order.status.lifecycle + '/promote/' + order.status.name;
+		return $http.get(url).success(function (data) {
+			console.log(data);
+		});
+	};
+
+	obj.demote = function (order) {
+		var url = '/lifecycles/' + order.status.lifecycle + '/demote/' + order.status.name;
+		return $http.get(url).success(function (data) {
+			console.log(data);
+		});
 	};
 
 	return obj;

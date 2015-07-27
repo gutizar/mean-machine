@@ -8,11 +8,13 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 require('./models/Orders');
 require('./models/Comments');
+require('./models/Lifecycles');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var orders = require('./routes/orders');
 var comments = require('./routes/comments');
+var lifecycles = require('./routes/lifecycles');
 
 var app = express();
 
@@ -32,6 +34,7 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/orders', orders);
 app.use('/comments', comments);
+app.use('/lifecycles', lifecycles);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
