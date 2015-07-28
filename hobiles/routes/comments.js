@@ -52,19 +52,4 @@ router.put('/:comment/upvote', function (req, res, next) {
   });
 });
 
-router.delete('/:comment', function (req, res, next) {
-  req.comment.order.comments.pull({
-    _id: req.comment._id
-  });
-
-  req.comment.order.save(function (err, order) {
-    if (err) { return next(err); }
-
-    req.comment.remove(function (err) {
-      if (err) { return next(err); }
-      res.status(204).send();
-    });
-  });
-});
-
 module.exports = router;

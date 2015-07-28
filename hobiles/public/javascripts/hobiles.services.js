@@ -72,6 +72,7 @@ services.factory('orders', ['$http', function ($http) {
 	obj.addComment = function (order, comment) {
 		return $http.post('/orders/' + order._id + '/comments', comment)
 			.success(function (data) {
+				data.order = order._id;
 				order.comments.push(data);
 			});
 	};
@@ -122,6 +123,10 @@ services.factory('comments', ['$http', function ($http) {
 			.success(function (data) {
 				comment.important = data.important;
 			});
+	};
+
+	obj.delete = function (comment) {
+		return $http.delete('/orders/' + comment.order + '/comments/' + comment._id);
 	};
 
 	return obj;

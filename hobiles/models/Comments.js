@@ -10,7 +10,7 @@ var CommentSchema = new mongoose.Schema({
 });
 
 CommentSchema.pre('save', function (next) {
-  this.created = new Date();
+  // this.created = new Date();
   next();
 });
 

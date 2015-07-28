@@ -1,26 +1,33 @@
-<h2>{{ order.number }}</h2>
+<div class="page-header">
+  <h1>{{ order.number }} <small>order details</small></h1>
+</div>
 <div>
-  <h3>Order details:</h3>
-  <hr />
-  <h4 class="important" ng-show="order.important">
-    The order has been marked as important
-    <a href="#" ng-click="toggle()">x</a>
-  </h4>
-  <button ng-click="toggle()" ng-hide="order.important" class="btn btn-default">
-    Set as important
-  </button>
-  <button ng-click="promote()" class="btn btn-default">Promote</button>
-  <button ng-click="demote()" class="btn btn-default">Demote</button>
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editOrderModal">
-    Edit order
-  </button>
-  <ul>
-    <li>Web ID: {{ order.numberWeb }}</li>
-    <li>Description: {{ order.description }}</li>
-    <li>Service: {{ order.service }}</li>
-    <li>Customer: {{ order.customerName }}</li>
-    <li>Sum: {{ order.sum | currency }}</li>
-  </ul>
+  <div class="alert alert-danger" role="alert" ng-show="order.important">
+    <strong></strong>The order is marked as important
+  </div>
+  <div class="btn-group" role="group" aria-label="Edit order actions">
+    <button ng-click="toggle()" class="btn btn-default">
+      {{ (order.important) ? 'Unmark as important' : 'Mark as important' }}
+    </button>
+    <button ng-click="promote()" class="btn btn-default">Promote</button>
+    <button ng-click="demote()" class="btn btn-default">Demote</button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editOrderModal">
+      Edit order
+    </button>
+  </div>
+  <div class="alert alert-success alert-dismissible" role="alert" ng-show="appStatus.show">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <strong>Success!</strong> {{ appStatus.message }}
+  </div>
+  <div class="well">
+    <dl class="dl-horizontal">
+      <dt>Web ID</dt><dd>{{ order.numberWeb }}</dd>
+      <dt>Description</dt><dd>{{ order.description }}</dd>
+      <dt>Service</dt><dd>{{ order.service }}</dd>
+      <dt>Customer</dt><dd>{{ order.customerName }}</dd>
+      <dt>Sum</dt><dd>{{ order.sum | currency }}</dd>
+    </dl>
+  </div>
   <table class="table table-bordered">
     <thead>
       <tr>
@@ -38,21 +45,24 @@
         <td>{{ comment.created | timeAgo }}</td>
         <td>{{ comment.upvotes }}</td>
         <td>
-          <a ng-click="upvote(comment)">^Up</a>
-          <a ng-click="toggleComment(comment)">*Imp</a>
+          <a ng-click="upvote(comment)" class="nounderline"><span class="label label-default">Upvote</span></a>
+          <a ng-click="toggleComment(comment)" class="nounderline">
+            <span class="label label-default">{{ (comment.important) ? 'Unmark' : 'Mark' }}</span>
+          </a>
+          <a ng-click="delete(comment)" class="nounderline"><span class="label label-warning">Delete</span></a>
         </td>
       </tr>
     </tbody>
   </table>
-  <form class="form-inline" ng-submit="addComment()">
+  <form ng-submit="addComment()">
     <h4>Add a comment</h4>
     <div class="form-group">
-      <label class="sr-only" for="commentBody">Comment</label>
-      <input id="commentBody" type="text" placeholder="Comment" ng-model="body"></input>
+      <label class="sr-only" for="commentBody" class="control-label">Comment</label>
+      <textarea id="commentBody" rows="3" class="form-control" type="text" placeholder="Comment" ng-model="body"></textarea>
     </div>
     <div class="form-group">
-      <label class="sr-only" for="commentAuthor">By</label>
-      <input id="commentAuthor" type="text" placeholder="Author" ng-model="createdBy"></input>
+      <label class="sr-only" for="commentAuthor" class="control-label">By</label>
+      <input id="commentAuthor" class="form-control" type="text" placeholder="Author" ng-model="createdBy"></input>
     </div>
     <button class="btn btn-default" type="submit">Create</button>
   </form>
@@ -64,62 +74,59 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title" id="editOrderLabel">Edit order {{ order.number }}</h4>
         </div>
-        <div class="modal-body">
-          <form name="form" class="form-horizontal" ng-submit="updateOrder(order)">
-          <div ng-show="updateStatus.ok">
-            <span>
-              Order successfully modified #{{ updateStatus.nModified }}
-            </span>
+        <form name="form" ng-submit="updateOrder(order)">
+          <div class="modal-body">
+            <div ng-show="errors['form']">
+              <span>{{ errors['form'] }}</span>
+            </div>
+            <div class="form-group" ng-class="{'has-error': form.number.$dirty && form.number.$invalid }">
+              <label for="orderNumber" class="control-label">Number</label>
+              <input id="orderNumber" class="form-control"  type="text" name="number" ng-model="order.number" server-error></input>
+              <p class="help-block" ng-show="form.number.$dirty && form.number.$invalid">
+                <span class="text-danger" ng-show="form.number.$error.server">
+                  {{ errors.number }}
+                </span>
+              </p>
+            </div>
+            <div class="form-group">
+              <label for="orderNumberWeb" class="control-label">WEB number</label>
+              <input id="orderNumberWeb" class="form-control" type="text" ng-model="order.numberWeb"></input>
+            </div>
+            <div class="form-group">
+              <label for="orderCustomer" class="control-label">Customer name</label>
+              <input id="orderCustomer" class="form-control" type="text" ng-model="order.customerName"></input>
+            </div>
+            <div class="form-group">
+              <label for="orderDescription" class="control-label">Description</label>
+              <textarea id="orderDescription" class="form-control" rows="3" type="text" ng-model="order.description"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="orderService" class="control-label">Service description</label>
+              <textarea id="orderService" class="form-control" rows="3" type="text" ng-model="order.service"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="orderSum" class="control-label">Sum</label>
+              <div class="input-group">
+                <input id="orderSum" class="form-control" type="number" step="any" ng-model="order.sum"></input>
+                <span class="input-group-addon">€</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="orderDispatch" class="control-label">Dispatch</label>
+              <select id="orderDispatch" class="form-control" class="form-control"
+                ng-options="item.name as item.label for item in dispatch" ng-model="order.dispatch"></select>
+            </div>
+            <div class="form-group">
+              <label for="orderPayment" class="control-label">Payment</label>
+              <select id="orderPayment" class="form-control" class="form-control"
+                ng-options="item.name as item.label for item in payment" ng-model="order.payment"></select>
+            </div>
           </div>
-          <div ng-show="errors['form']">
-            <span>{{ errors['form'] }}</span>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Update</button>
           </div>
-          <fieldset>
-          <div class="form-group">
-            <label for="orderNumber">Number</label>
-            <input id="orderNumber" type="text" name="number" ng-model="order.number" server-error></input>
-            <p class="help-block" ng-show="form.number.$dirty && form.number.$invalid">
-              <span class="text-danger" ng-show="form.number.$error.server">
-                {{ errors.number }}
-              </span>
-            </p>
-          </div>
-          <div class="form-group">
-            <label for="orderNumberWeb">WEB number</label>
-            <input id="orderNumberWeb" type="text" ng-model="order.numberWeb"></input>
-          </div>
-          <div class="form-group">
-            <label for="orderSum">Sum</label>
-            <input id="orderSum" type="number" step="any" ng-model="order.sum"></input>
-          </div>
-          <div class="form-group">
-            <label for="orderDescription">Description</label>
-            <input id="orderDescription" type="text" ng-model="order.description"></input>
-          </div>
-          <div class="form-group">
-            <label for="orderService">Service description</label>
-            <input id="orderService" type="text" ng-model="order.service"></input>
-          </div>
-          <div class="form-group">
-            <label for="orderCustomer">Customer name</label>
-            <input id="orderCustomer" type="text" ng-model="order.customerName"></input>
-          </div>
-          <div class="form-group">
-            <label for="orderDispatch">Dispatch</label>
-            <select id="orderDispatch" class="form-control" ng-options="item.name as item.label for item in dispatch" ng-model="order.dispatch"></select>
-          </div>
-          <div class="form-group">
-            <label for="orderPayment">Payment</label>
-            <select id="orderPayment" class="form-control" ng-options="item.name as item.label for item in payment" ng-model="order.payment"></select>
-          </div>
-          <button type="submit" class="btn btn-primary">Update</button>  
-          </fieldset>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
+        </form>
     </div>
   </div>
-
 </div>

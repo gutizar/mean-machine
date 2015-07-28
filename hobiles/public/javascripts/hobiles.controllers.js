@@ -18,13 +18,21 @@ controllers.controller('OrderCtrl', ['$scope', 'orders', 'order', 'comments', 'd
 		$scope.dispatch = dispatch;
 		$scope.payment = payment;
 
+		$scope.appStatus = {
+			show: false,
+			message: '',
+			data: {}
+		};
+
 		$scope.updateOrder = function (input) {
 			$scope.errors = {};
 			// Pre-update hook does not work
 			// TODO: Check the issue @ the mongoosejs project page
 			input.updated = new Date();
 			orders.update(input).success(function (data) {
-				$scope.updateStatus = data;
+				$scope.appStatus = {
+					show: true, message: 'The order was successfully updated', data: data
+				};
 				$('#editOrderModal').modal('toggle');
 			}).error(function (err) {
 				if (err.errors) {
@@ -44,7 +52,7 @@ controllers.controller('OrderCtrl', ['$scope', 'orders', 'order', 'comments', 'd
 				return;
 			}
 			orders.addComment($scope.order, {
-				body: $scope.body, createdBy: $scope.createdBy
+				body: $scope.body, createdBy: $scope.createdBy, created: new Date()
 			});
 			$scope.body = '';
 			$scope.createdBy = '';
@@ -68,5 +76,16 @@ controllers.controller('OrderCtrl', ['$scope', 'orders', 'order', 'comments', 'd
 
 		$scope.upvote = function (comment) {
 			comments.upvote(comment);
+		};
+
+		$scope.delete = function (comment) {
+			comments.delete(comment).success(function (data) {
+				$scope.appStatus = {
+					show: true, message: 'The comment was successfully deleted', data: {}
+				};
+				$scope.order.comments = _.without(
+					$scope.order.comments, comment
+				);
+			});
 		};
 }]);

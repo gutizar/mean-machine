@@ -14,3 +14,17 @@ a {
 .css-form input.ng-invalid.ng-touched {
 	background-color: #FA787E;
 }
+
+.btn-group {
+  margin-bottom: 20px;
+}
+
+a.nounderline {
+  text-decoration: none;
+}
+
+a.nounderline:hover {
+  text-decoration: none;
+}
+
+body > div.container > div > div > div > div:nth-child(2) > table > tbody > tr:nth-child(1) > td:nth-child(5) > a.nounderline > span
