@@ -79,16 +79,17 @@ services.factory('orders', ['$http', function ($http) {
 
 	obj.promote = function (order) {
 		var url = '/lifecycles/' + order.status.lifecycle + '/promote/' + order.status.name;
-		return $http.get(url).success(function (data) {
-			console.log(data);
-		});
+		return $http.get(url);
 	};
 
 	obj.demote = function (order) {
 		var url = '/lifecycles/' + order.status.lifecycle + '/demote/' + order.status.name;
-		return $http.get(url).success(function (data) {
-			console.log(data);
-		});
+		return $http.get(url);
+	};
+
+	obj.updateStatus = function (order, state) {
+		var url = '/orders/' + order._id + '/status';
+		return $http.put(url, state);
 	};
 
 	return obj;

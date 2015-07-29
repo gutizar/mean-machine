@@ -24,6 +24,9 @@ controllers.controller('OrderCtrl', ['$scope', 'orders', 'order', 'comments', 'd
 			data: {}
 		};
 
+		$scope.state = { };
+		$scope.states = [ ];
+
 		$scope.updateOrder = function (input) {
 			$scope.errors = {};
 			// Pre-update hook does not work
@@ -46,6 +49,16 @@ controllers.controller('OrderCtrl', ['$scope', 'orders', 'order', 'comments', 'd
 			});
 		};
 
+		$scope.updateStatus = function (order, state) {
+			orders.updateStatus(order, state).success(function (data) {
+				$scope.appStatus = {
+					show: true, message: 'Order status changed to ' + state.label, data: data
+				};
+				$('#editStatusModal').modal('toggle');
+				order.status.name = state.name;
+			});
+		};
+
 		$scope.addComment = function () {
 			if (!$scope.body || !$scope.createdBy) {
 				// Return some validation error
@@ -63,11 +76,17 @@ controllers.controller('OrderCtrl', ['$scope', 'orders', 'order', 'comments', 'd
 		};
 
 		$scope.promote = function () {
-			orders.promote($scope.order);
+			orders.promote($scope.order).success(function (data) {
+				$scope.states = data;
+				$('#editStatusModal').modal('show');
+			});
 		};
 
 		$scope.demote = function () {
-			orders.demote($scope.order);
+			orders.demote($scope.order).success(function (data) {
+				$scope.states = data;
+				$('#editStatusModal').modal('show');
+			});
 		};
 
 		$scope.toggleComment = function (comment) {

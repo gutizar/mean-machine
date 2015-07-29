@@ -66,67 +66,97 @@
     </div>
     <button class="btn btn-default" type="submit">Create</button>
   </form>
-  <!-- Edit Order Modal -->
-  <div class="modal fade" id="editOrderModal" tabindex="-1" role="dialog" aria-labelledby="editOrderLabel">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="editOrderLabel">Edit order {{ order.number }}</h4>
-        </div>
-        <form name="form" ng-submit="updateOrder(order)">
-          <div class="modal-body">
-            <div ng-show="errors['form']">
-              <span>{{ errors['form'] }}</span>
-            </div>
-            <div class="form-group" ng-class="{'has-error': form.number.$dirty && form.number.$invalid }">
-              <label for="orderNumber" class="control-label">Number</label>
-              <input id="orderNumber" class="form-control"  type="text" name="number" ng-model="order.number" server-error></input>
-              <p class="help-block" ng-show="form.number.$dirty && form.number.$invalid">
-                <span class="text-danger" ng-show="form.number.$error.server">
-                  {{ errors.number }}
-                </span>
-              </p>
-            </div>
-            <div class="form-group">
-              <label for="orderNumberWeb" class="control-label">WEB number</label>
-              <input id="orderNumberWeb" class="form-control" type="text" ng-model="order.numberWeb"></input>
-            </div>
-            <div class="form-group">
-              <label for="orderCustomer" class="control-label">Customer name</label>
-              <input id="orderCustomer" class="form-control" type="text" ng-model="order.customerName"></input>
-            </div>
-            <div class="form-group">
-              <label for="orderDescription" class="control-label">Description</label>
-              <textarea id="orderDescription" class="form-control" rows="3" type="text" ng-model="order.description"></textarea>
-            </div>
-            <div class="form-group">
-              <label for="orderService" class="control-label">Service description</label>
-              <textarea id="orderService" class="form-control" rows="3" type="text" ng-model="order.service"></textarea>
-            </div>
-            <div class="form-group">
-              <label for="orderSum" class="control-label">Sum</label>
-              <div class="input-group">
-                <input id="orderSum" class="form-control" type="number" step="any" ng-model="order.sum"></input>
-                <span class="input-group-addon">€</span>
+  <div>
+    <!-- Edit Order Modal START -->
+    <div class="modal fade" id="editOrderModal" tabindex="-1" role="dialog" aria-labelledby="editOrderLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="editOrderLabel">Edit order {{ order.number }}</h4>
+          </div>
+          <form name="form" ng-submit="updateOrder(order)">
+            <div class="modal-body">
+              <div ng-show="errors['form']">
+                <span>{{ errors['form'] }}</span>
+              </div>
+              <div class="form-group" ng-class="{'has-error': form.number.$dirty && form.number.$invalid }">
+                <label for="orderNumber" class="control-label">Number</label>
+                <input id="orderNumber" class="form-control"  type="text" name="number" ng-model="order.number" server-error></input>
+                <p class="help-block" ng-show="form.number.$dirty && form.number.$invalid">
+                  <span class="text-danger" ng-show="form.number.$error.server">
+                    {{ errors.number }}
+                  </span>
+                </p>
+              </div>
+              <div class="form-group">
+                <label for="orderNumberWeb" class="control-label">WEB number</label>
+                <input id="orderNumberWeb" class="form-control" type="text" ng-model="order.numberWeb"></input>
+              </div>
+              <div class="form-group">
+                <label for="orderCustomer" class="control-label">Customer name</label>
+                <input id="orderCustomer" class="form-control" type="text" ng-model="order.customerName"></input>
+              </div>
+              <div class="form-group">
+                <label for="orderDescription" class="control-label">Description</label>
+                <textarea id="orderDescription" class="form-control" rows="3" type="text" ng-model="order.description"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="orderService" class="control-label">Service description</label>
+                <textarea id="orderService" class="form-control" rows="3" type="text" ng-model="order.service"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="orderSum" class="control-label">Sum</label>
+                <div class="input-group">
+                  <input id="orderSum" class="form-control" type="number" step="any" ng-model="order.sum"></input>
+                  <span class="input-group-addon">€</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="orderDispatch" class="control-label">Dispatch</label>
+                <select id="orderDispatch" class="form-control" class="form-control"
+                  ng-options="item.name as item.label for item in dispatch" ng-model="order.dispatch"></select>
+              </div>
+              <div class="form-group">
+                <label for="orderPayment" class="control-label">Payment</label>
+                <select id="orderPayment" class="form-control" class="form-control"
+                  ng-options="item.name as item.label for item in payment" ng-model="order.payment"></select>
               </div>
             </div>
-            <div class="form-group">
-              <label for="orderDispatch" class="control-label">Dispatch</label>
-              <select id="orderDispatch" class="form-control" class="form-control"
-                ng-options="item.name as item.label for item in dispatch" ng-model="order.dispatch"></select>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Update</button>
             </div>
-            <div class="form-group">
-              <label for="orderPayment" class="control-label">Payment</label>
-              <select id="orderPayment" class="form-control" class="form-control"
-                ng-options="item.name as item.label for item in payment" ng-model="order.payment"></select>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Update</button>
-          </div>
-        </form>
+          </form>
+      </div>
     </div>
+    <!-- Edit Order Modal END -->
+  </div>
+  <div>
+    <!-- Edit Order Status Modal START -->
+    <div class="modal fade" id="editStatusModal" tabindex="-2" role="dialog" aria-labelledby="editStatusLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="editStatusLabel">Update status for {{ order.number }}</h4>
+          </div>
+          <form name="status" ng-submit="updateStatus(order, state)">
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="newStatus" class="control-label">Status</label>
+                <select id="newStatus" class="form-control" class="form-control"
+                  ng-options="item as item.label for item in states" ng-model="state"></select>
+              </div>
+            <div class="modal-footer">
+            </div>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Update</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Edit Order Status Modal END -->
   </div>
 </div>

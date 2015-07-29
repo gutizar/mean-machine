@@ -94,7 +94,7 @@ router.post('/', function (req, res, next) {
 });
 
 router.post('/:order', function (req, res, next) {
-  Order.update({ _id: req.order._id }, req.body, { runValidators: true }, 
+  Order.update({ _id: req.order._id }, req.body, { runValidators: true },
     function (err, raw) {
       if (err) { return next(err); }
       res.json(raw);
@@ -106,6 +106,19 @@ router.put('/:order/toggle', function (req, res, next) {
     if (err) { return next(err) };
     res.json(order);
   });
+});
+
+router.put('/:order/status', function (req, res, next) {
+  var status = req.order.status;
+  Order.update({ _id: req.order._id },
+    { status: { lifecycle: status.lifecycle, name: req.body.name },
+      updated: new Date() 
+    },
+    { runValidators: false},
+    function (err, raw) {
+      if (err) { return next(err); }
+      res.json(raw);
+    });
 });
 
 module.exports = router;
