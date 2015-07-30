@@ -25,8 +25,8 @@ var OrderSchema = new mongoose.Schema({
   payment: String,
   sum: { type: Number, default: 0 },
   status: {
-    // TODO: Add the step label
     name: String,
+    label: String,
     lifecycle: String
   },
   important: { type: Boolean, default: false },

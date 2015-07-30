@@ -27,6 +27,10 @@ controllers.controller('OrderCtrl', ['$scope', 'orders', 'order', 'comments', 'd
 		$scope.state = { };
 		$scope.states = [ ];
 
+		$scope.closeNotification = function () {
+			$scope.appStatus.show = false;
+		}
+
 		$scope.updateOrder = function (input) {
 			$scope.errors = {};
 			// Pre-update hook does not work
@@ -56,6 +60,7 @@ controllers.controller('OrderCtrl', ['$scope', 'orders', 'order', 'comments', 'd
 				};
 				$('#editStatusModal').modal('toggle');
 				order.status.name = state.name;
+				order.status.label = state.label;
 			});
 		};
 

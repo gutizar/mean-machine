@@ -1,22 +1,41 @@
 <div class="page-header">
-  <h1>{{ order.number }} <small>order details</small></h1>
+  <h1>{{ order.number }} <small>order details</small></span></h1>
+</div>
+
+<div class="row">
+  <div class="col-md-9">
+    <div class="btn-group clear-20" role="group" aria-label="Edit order actions">
+      <button ng-click="toggle()" class="btn btn-default">
+        {{ (order.important) ? 'Unmark as important' : 'Mark as important' }}
+      </button>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editOrderModal">
+        Edit order
+      </button>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="btn-group pull-right clear-20" aria-label="Order status">
+      <a ng-click="promote()" class="btn btn-danger" role="button" disabled="disabled">{{ order.status.label }}</a>
+      <button ng-click="demote()" class="btn btn-default"
+        data-toggle="tooltip" data-placement="bottom" title="Return order to the previous step">
+        <span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span>
+      </button>
+      <button ng-click="promote()" class="btn btn-default"
+        data-toggle="tooltip" data-placement="bottom" title="Advance order to the next step">
+        <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
 </div>
 <div>
+  <!-- navbar location -->
   <div class="alert alert-danger" role="alert" ng-show="order.important">
     <strong></strong>The order is marked as important
   </div>
-  <div class="btn-group" role="group" aria-label="Edit order actions">
-    <button ng-click="toggle()" class="btn btn-default">
-      {{ (order.important) ? 'Unmark as important' : 'Mark as important' }}
+  <div class="alert alert-success fade in" role="alert" ng-show="appStatus.show">
+    <button type="button" class="close" aria-label="Close" ng-click="closeNotification()">
+      <span aria-hidden="true">&times;</span>
     </button>
-    <button ng-click="promote()" class="btn btn-default">Promote</button>
-    <button ng-click="demote()" class="btn btn-default">Demote</button>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editOrderModal">
-      Edit order
-    </button>
-  </div>
-  <div class="alert alert-success alert-dismissible" role="alert" ng-show="appStatus.show">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     <strong>Success!</strong> {{ appStatus.message }}
   </div>
   <div class="well">

@@ -5,6 +5,9 @@ var mongoose = require('mongoose');
 var Order = mongoose.model('Order');
 var Comment = mongoose.model('Comment');
 
+var events = require('events');
+var eventEmitter = new events.EventEmitter();
+
 router.param('order', function (req, res, next, id) {
   var query = Order.findById(id);
   query.exec(function (err, order) {
@@ -111,14 +114,24 @@ router.put('/:order/toggle', function (req, res, next) {
 router.put('/:order/status', function (req, res, next) {
   var status = req.order.status;
   Order.update({ _id: req.order._id },
-    { status: { lifecycle: status.lifecycle, name: req.body.name },
-      updated: new Date() 
+    { status: {
+        lifecycle: status.lifecycle,
+        name: req.body.name,
+        label: req.body.label
+      },
+      updated: new Date()
     },
     { runValidators: false},
     function (err, raw) {
       if (err) { return next(err); }
+      eventEmitter.emit('status-change', status);
       res.json(raw);
     });
+});
+
+eventEmitter.on('status-change', function (data) {
+  console.log('Inside the status-change event handler');
+  console.log(data);
 });
 
 module.exports = router;
