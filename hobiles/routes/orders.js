@@ -5,8 +5,8 @@ var mongoose = require('mongoose');
 var Order = mongoose.model('Order');
 var Comment = mongoose.model('Comment');
 
-var events = require('events');
-var eventEmitter = new events.EventEmitter();
+var Audit = require('./audit');
+var audit = new Audit();
 
 router.param('order', function (req, res, next, id) {
   var query = Order.findById(id);
@@ -100,6 +100,7 @@ router.post('/:order', function (req, res, next) {
   Order.update({ _id: req.order._id }, req.body, { runValidators: true },
     function (err, raw) {
       if (err) { return next(err); }
+      audit.orderUpdated(req.order, req.body);
       res.json(raw);
     });
 });
@@ -124,14 +125,9 @@ router.put('/:order/status', function (req, res, next) {
     { runValidators: false},
     function (err, raw) {
       if (err) { return next(err); }
-      eventEmitter.emit('status-change', status);
+      audit.statusChanged(req.order, status);
       res.json(raw);
     });
-});
-
-eventEmitter.on('status-change', function (data) {
-  console.log('Inside the status-change event handler');
-  console.log(data);
 });
 
 module.exports = router;

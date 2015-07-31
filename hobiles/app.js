@@ -9,6 +9,7 @@ var mongoose = require('mongoose');
 require('./models/Orders');
 require('./models/Comments');
 require('./models/Lifecycles');
+require('./models/Events');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
