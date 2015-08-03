@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 var Order = mongoose.model('Order');
 var Comment = mongoose.model('Comment');
 
-var Audit = require('./audit');
+var Audit = require('../helpers/audit');
 var audit = new Audit();
 
 router.param('order', function (req, res, next, id) {
@@ -113,19 +113,26 @@ router.put('/:order/toggle', function (req, res, next) {
 });
 
 router.put('/:order/status', function (req, res, next) {
-  var status = req.order.status;
-  Order.update({ _id: req.order._id },
+  var previousState = req.order.status;
+  var nextState = req.body;
+  var statusChangePayload = {
+    previousState: previousState.name,
+    nextState: nextState.name,
+    lifecycle: previousState.lifecycle
+  };
+  Order.update(
+    { _id: req.order._id },
     { status: {
-        lifecycle: status.lifecycle,
-        name: req.body.name,
-        label: req.body.label
+        name: nextState.name,
+        label: nextState.label,
+        lifecycle: previousState.lifecycle
       },
       updated: new Date()
     },
     { runValidators: false},
     function (err, raw) {
       if (err) { return next(err); }
-      audit.statusChanged(req.order, status);
+      audit.statusChanged(req.order, statusChangePayload);
       res.json(raw);
     });
 });

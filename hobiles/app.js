@@ -16,6 +16,7 @@ var users = require('./routes/users');
 var orders = require('./routes/orders');
 var comments = require('./routes/comments');
 var lifecycles = require('./routes/lifecycles');
+var events = require('./routes/events');
 
 var app = express();
 
@@ -36,6 +37,7 @@ app.use('/users', users);
 app.use('/orders', orders);
 app.use('/comments', comments);
 app.use('/lifecycles', lifecycles);
+app.use('/events', events);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

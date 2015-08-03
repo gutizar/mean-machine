@@ -11,14 +11,8 @@ function Audit () {
 }
 
 function subscribeToEvents (audit) {
-  audit.on('status-change', function (id, version, payload) {
-    var event = new Event({
-      entity: 'Order',
-      entityId: id,
-      name: 'status-change',
-      version: version,
-      payload: payload
-    });
+  audit.on('status-change', function (data) {
+    var event = new Event(data);
     event.save(function (err, event) {
       if (err) { console.error(err); }
       console.log('In the status-change event handler');
@@ -26,14 +20,8 @@ function subscribeToEvents (audit) {
     });
   });
 
-  audit.on('order-modify', function (id, version, payload) {
-    var event = new Event({
-      entity: 'Order',
-      entityId: id,
-      name: 'order-modify',
-      version: version,
-      payload: payload
-    });
+  audit.on('order-modify', function (data) {
+    var event = new Event(data);
     event.save(function (err, event) {
       if (err) { console.error(err); }
       console.log('In the order-modify event handler');
@@ -45,11 +33,26 @@ function subscribeToEvents (audit) {
 util.inherits(Audit, EventEmitter);
 
 Audit.prototype.orderUpdated = function (order, data) {
-  this.emit('order-modify', order._id, order.__v++, data);
+  data.comments = [];
+  var eventData = {
+    entity: 'Order',
+    entityId: order._id,
+    name: 'order-modify',
+    version: order.__v++,
+    payload: data
+  };
+  this.emit('order-modify', eventData);
 };
 
-Audit.prototype.statusChanged = function (order, status) {
-  this.emit('status-change', order._id, order.__v++, status);
+Audit.prototype.statusChanged = function (order, payload) {
+  var eventData = {
+    entity: 'Order',
+    entityId: order._id,
+    name: 'status-change',
+    version: order.__v++,
+    payload: payload
+  };
+  this.emit('status-change', eventData);
 };
 
 module.exports = Audit;
