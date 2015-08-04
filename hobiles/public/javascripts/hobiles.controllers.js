@@ -27,6 +27,8 @@ controllers.controller('OrderCtrl', ['$scope', 'orders', 'order', 'comments', 'd
 		$scope.state = { };
 		$scope.states = [ ];
 
+		$scope.finished = order.status.name == "step_6";
+
 		$scope.closeNotification = function () {
 			$scope.appStatus.show = false;
 		}
@@ -61,6 +63,11 @@ controllers.controller('OrderCtrl', ['$scope', 'orders', 'order', 'comments', 'd
 				$('#editStatusModal').modal('toggle');
 				order.status.name = state.name;
 				order.status.label = state.label;
+
+				// TODO: do it a little nicer :D
+				if (state.name = 'step_6') {
+					$scope.finished = true;
+				}
 			});
 		};
 

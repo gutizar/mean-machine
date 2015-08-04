@@ -73,7 +73,7 @@
       </tr>
     </tbody>
   </table>
-  <form ng-submit="addComment()">
+  <form ng-submit="addComment()" ng-hide="finished">
     <h4>Add a comment</h4>
     <div class="form-group">
       <label class="sr-only" for="commentBody" class="control-label">Comment</label>
@@ -85,6 +85,17 @@
     </div>
     <button class="btn btn-default" type="submit">Create</button>
   </form>
+  <table class="table table-bordered" ng-show="finished">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Event</th>
+        <th>Payload</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
   <div>
     <!-- Edit Order Modal START -->
     <div class="modal fade" id="editOrderModal" tabindex="-1" role="dialog" aria-labelledby="editOrderLabel">

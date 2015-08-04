@@ -76,13 +76,12 @@ router.delete('/:order/comments/:comment', function (req, res, next) {
 router.post('/:order/comments', function (req, res, next) {
   var comment = new Comment(req.body);
   comment.order = req.order;
-
   comment.save(function (err, comment) {
     if (err) { return next(err); }
-
     req.order.comments.push(comment);
     req.order.save(function (err, order) {
       if (err) { return next(err); }
+      audit.commentAdded(order, comment);
       res.json(comment);
     });
   });
