@@ -12,6 +12,10 @@ controllers.controller('HomeCtrl', ['$scope', 'orders', function ($scope, orders
 	$scope.orders = orders.orders;
 }]);
 
+controllers.controller('TestCtrl', ['$scope', function ($scope) {
+	console.log('In the test controller');
+}]);
+
 controllers.controller('OrderCtrl', ['$scope', 'orders', 'order', 'comments', 'dispatch', 'payment',
 	function ($scope, orders, order, comments, dispatch, payment) {
 		$scope.order = order;
